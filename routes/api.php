@@ -48,7 +48,9 @@ Route::group([
         Route::group([
             'middleware' => ['role:ADMIN']
         ], function ($router) {
-
+            Route::get('sigups', 'SignupController@inddex');
+            Route::put('sigup/enable/{id}', 'SignupController@enablePresence');
+            Route::put('sigup/disable/{id}', 'SignupController@disablePresence');
         });
     });
 });
