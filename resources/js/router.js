@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import Router from 'vue-router';
+import DashboardLayout from './components/DashboardLayout.vue';
 import Dashboard from './components/Dashboard.vue';
 import Login from './components/Login.vue';
 
@@ -9,8 +10,14 @@ export default new Router({
 	routes: [
 		{
 			path: '/',
-			name: 'dashboard',
-			component: Dashboard
+			component: DashboardLayout,
+			children: [
+				{
+					path: '/',
+					name: 'dashboard',
+					component: Dashboard
+				}
+			]
 		},
 		{
 			path: '/login',

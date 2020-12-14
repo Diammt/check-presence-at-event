@@ -28,48 +28,35 @@ Vue.component('example-component', require('@/components/ExampleComponent.vue').
  */
 
 import Button from 'primevue/button';
- //import Breadcrumb from 'primevue/breadcrumb';
- //import Card from 'primevue/card';
- //import Dialog from 'primevue/dialog';
- //import Dropdown from 'primevue/dropdown';
- //import MegaMenu from 'primevue/megamenu';
- //import Menu from 'primevue/menu';
+import Dialog from 'primevue/dialog';
+import DataTable from 'primevue/datatable';
+import Column from 'primevue/column';
 import Menubar from 'primevue/menubar';
- //import MultiSelect from 'primevue/multiselect';
- //import Paginator from 'primevue/paginator';
+import Paginator from 'primevue/paginator';
 import Toast from 'primevue/toast';
 import ToastService from 'primevue/toastservice';
- //import Tooltip from 'primevue/tooltip';
- //import Ripple from 'primevue/ripple';
-//
- import 'primevue/resources/themes/saga-blue/theme.css';
- import 'primevue/resources/primevue.min.css';
- import 'primeicons/primeicons.css';
-//
+import Toolbar from 'primevue/toolbar';
+import InputText from 'primevue/inputtext';
+import Card from 'primevue/card';
+
+import 'primevue/resources/themes/saga-blue/theme.css';
+import 'primevue/resources/primevue.min.css';
+import 'primeicons/primeicons.css';
+
 Vue.use(ToastService);
  //Vue.directive('tooltip', Tooltip);
  //Vue.directive('ripple', Ripple);
-//
- Vue.component('Button', Button);
- //Vue.component('Breadcrumb', Breadcrumb);
- //Vue.component('Card', Card);
- //Vue.component('Dialog', Dialog);
- //Vue.component('Dropdown', Dropdown);
- //Vue.component('MegaMenu', MegaMenu);
+
+Vue.component('Button', Button);
+Vue.component('Dialog', Dialog);
+Vue.component('DataTable', DataTable);
+Vue.component('Column', Column);
 Vue.component('Menubar', Menubar);
- //Vue.component('Carousel', Carousel);
- //Vue.component('MultiSelect', MultiSelect);
- //Vue.component('Checkbox', Checkbox);
- //Vue.component('Paginator', Paginator);
+Vue.component('Paginator', Paginator);
 Vue.component('Toast', Toast);
- //Vue.component('Tooltip', Tooltip);
- //Vue.component('Ripple', Ripple);
-
-// notification starting
-import Notifications from 'vue-notification'
-Vue.use(Notifications)
-// notification ending
-
+Vue.component('Toolbar', Toolbar);
+Vue.component('InputText', InputText);
+Vue.component('Card', Card);
 
 import App from './App.vue'
 import router from './router'
