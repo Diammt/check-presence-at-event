@@ -17,9 +17,6 @@
 </head>
 <body>
     <div id="app">
-        <notifications group="foo"
-        ></notifications>
-        <example-component></example-component>
     </div>
 </body>
 </html>

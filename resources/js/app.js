@@ -26,21 +26,61 @@ Vue.component('example-component', require('@/components/ExampleComponent.vue').
  * the page. Then, you may begin adding components to this application
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
+
+import Button from 'primevue/button';
+ //import Breadcrumb from 'primevue/breadcrumb';
+ //import Card from 'primevue/card';
+ //import Dialog from 'primevue/dialog';
+ //import Dropdown from 'primevue/dropdown';
+ //import MegaMenu from 'primevue/megamenu';
+ //import Menu from 'primevue/menu';
+import Menubar from 'primevue/menubar';
+ //import MultiSelect from 'primevue/multiselect';
+ //import Paginator from 'primevue/paginator';
+import Toast from 'primevue/toast';
+import ToastService from 'primevue/toastservice';
+ //import Tooltip from 'primevue/tooltip';
+ //import Ripple from 'primevue/ripple';
+//
+ import 'primevue/resources/themes/saga-blue/theme.css';
+ import 'primevue/resources/primevue.min.css';
+ import 'primeicons/primeicons.css';
+//
+Vue.use(ToastService);
+ //Vue.directive('tooltip', Tooltip);
+ //Vue.directive('ripple', Ripple);
+//
+ Vue.component('Button', Button);
+ //Vue.component('Breadcrumb', Breadcrumb);
+ //Vue.component('Card', Card);
+ //Vue.component('Dialog', Dialog);
+ //Vue.component('Dropdown', Dropdown);
+ //Vue.component('MegaMenu', MegaMenu);
+Vue.component('Menubar', Menubar);
+ //Vue.component('Carousel', Carousel);
+ //Vue.component('MultiSelect', MultiSelect);
+ //Vue.component('Checkbox', Checkbox);
+ //Vue.component('Paginator', Paginator);
+Vue.component('Toast', Toast);
+ //Vue.component('Tooltip', Tooltip);
+ //Vue.component('Ripple', Ripple);
+
 // notification starting
 import Notifications from 'vue-notification'
 Vue.use(Notifications)
 // notification ending
 
-// dialog starting
-import VuejsDialog from 'vuejs-dialog';
-import VuejsDialogMixin from 'vuejs-dialog/dist/vuejs-dialog-mixin.min.js'; // only needed in custom components
-// include the default style
-import 'vuejs-dialog/dist/vuejs-dialog.min.css';
-// Tell Vue to install the plugin.
-Vue.use(VuejsDialog);
-// dialog ending
+
+import App from './App.vue'
+import router from './router'
+import VueHead from 'vue-head'
+
+Vue.use(VueHead)
+
+Vue.config.productionTip = false;
 
 
-const app = new Vue({
-    el: '#app',
-});
+new Vue({
+    router,
+	render: h => h(App)
+}).$mount('#app');
