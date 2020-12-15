@@ -74304,7 +74304,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ibudoSiteUrl", function() { return ibudoSiteUrl; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "domainCookies", function() { return domainCookies; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "appBaseApi", function() { return appBaseApi; });
-var production = false; // 0: local, 1: production
+var production = true; // 0: local, 1: production
 
 function titleForUrl(title) {
   return title.replace(/ /gi, "-");

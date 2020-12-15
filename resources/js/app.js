@@ -66,7 +66,7 @@ import store from './store'
 
 Vue.use(VueHead)
 
-Vue.config.productionTip = false;
+Vue.config.productionTip = true;
 
 
 new Vue({
