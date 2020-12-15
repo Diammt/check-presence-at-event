@@ -73414,7 +73414,7 @@ Vue.component('Card', primevue_card__WEBPACK_IMPORTED_MODULE_10___default.a);
 
 
 Vue.use(vue_head__WEBPACK_IMPORTED_MODULE_16___default.a);
-Vue.config.productionTip = false;
+Vue.config.productionTip = true;
 new Vue({
   router: _router__WEBPACK_IMPORTED_MODULE_15__["default"],
   store: _store__WEBPACK_IMPORTED_MODULE_18__["default"],
@@ -74311,14 +74311,14 @@ function titleForUrl(title) {
 }
 function ibudoSiteUrl() {
   if (production) {
-    return "https://ibudohub.co";
+    return "http://summit-management.ibudohub.co/";
   }
 
   return "http://127.0.0.1:8000";
 }
 function domainCookies() {
   if (production) {
-    return ".ibudohub.co";
+    return "summit-management.ibudohub.co";
   }
 
   return "127.0.0.1";

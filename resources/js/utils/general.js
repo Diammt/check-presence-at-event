@@ -6,14 +6,14 @@ export function titleForUrl(title) {
 
 export function ibudoSiteUrl() {
     if(production) {
-        return "https://ibudohub.co"
+        return "http://summit-management.ibudohub.co/"
     }
     return "http://127.0.0.1:8000"
 }
 
 export function domainCookies() {
     if(production) {
-        return ".ibudohub.co"
+        return "summit-management.ibudohub.co"
     }
     return "127.0.0.1"
 }
