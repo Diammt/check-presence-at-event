@@ -44,7 +44,7 @@
 					</Column>
                     <Column field="presence" header="Présent" :sortable="true">
                         <template #body="slotProps">
-							<span v-if="slotProps.data.presence" class="customer-badge status-present"> OUI  </span>
+							<span v-if="slotProps.data.presence==1" class="customer-badge status-present"> OUI  </span>
 							<span v-else class="customer-badge status-abscent"> NON  </span>
 						</template>
 					</Column>

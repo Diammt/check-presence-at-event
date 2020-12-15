@@ -54106,7 +54106,7 @@ var render = function() {
                     key: "body",
                     fn: function(slotProps) {
                       return [
-                        slotProps.data.presence
+                        slotProps.data.presence == 1
                           ? _c(
                               "span",
                               { staticClass: "customer-badge status-present" },
