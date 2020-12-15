@@ -21,7 +21,7 @@ class SignupStatutSummitTableSeeder extends Seeder
                 "email" => $value->Email,
                 "phone" => $value->Phone,
                 "company" => $value->Company,
-                "paystatus" => $value->_paystatut,
+                "paystatut" => $value->_paystatut,
                 "ticked_id" => $value->TicketID,
                 "tchrono" => $value->Tchrono,
             ]);

@@ -1,15 +1,10 @@
 <template>
 	<div class="p-grid crud-demo">
 		<div class="p-col-12">
-            <Toolbar>
-				<template slot="left">
-                    <h3 class="p-text-uppercase">Liste des invités</h3>
-				</template>
-			</Toolbar>
 			<div class="card">
 				<Toolbar class="p-mb-4">
 					<template slot="left">
-						<Button title="Supprimer" icon="pi pi-trash" class="p-button-danger" @click="confirmDeleteSelected" :disabled="!selected_guests || !selected_guests.length" />
+						<h3 class="p-text-uppercase">Liste des invités</h3>
 					</template>
 
 					<template slot="right">
@@ -17,7 +12,7 @@
 					</template>
 				</Toolbar>
 
-			    <DataTable ref="dt" :value="guests"  class="p-datatable-customers" :rows="10" dataKey="id" :rowHover="true" :selection.sync="selected_guests"
+			    <DataTable ref="dt" :value="guests"  class="p-datatable-customers" :rows="10" dataKey="id" :rowHover="true"
                         :filters="filters" :paginator="true"  >
                     <template #header>
                         <div class="table-header">
@@ -27,8 +22,10 @@
                             </span>
 						</div>
 					</template>
+					<template #empty>
+                        <span class="text-center">Aucun invité actuellement</span>
+					</template>
 
-					<Column selectionMode="multiple" headerStyle="width: 3rem"></Column>
                     <Column field="fullname" header="Nom & Prénom" :sortable="true">
 						<template #body="slotProps">
 							{{slotProps.data.fullname}}
@@ -39,31 +36,31 @@
 							{{slotProps.data.email}}
 						</template>
 					</Column>
-                    <Column field="phone" header="Numéro">
+                    <Column field="phone" header="Numéro" :sortable="true">
                         <template #body="slotProps">
 							{{slotProps.data.phone}}
 						</template>
 					</Column>
-                    <Column field="presence" header="Présent">
+                    <Column field="presence" header="Présent" :sortable="true">
                         <template #body="slotProps">
 							<span v-if="slotProps.data.presence" class="customer-badge status-present"> OUI  </span>
 							<span v-else class="customer-badge status-abscent"> NON  </span>
 						</template>
 					</Column>
-                    <Column field="paystatut" header="Statut Payement">
+                    <Column field="paystatut" header="Statut Payement" :sortable="true">
                         <template #body="slotProps">
-							<span v-if="slotProps.data.paystatut" class="customer-badge status-paye"> PAYE  </span>
+							<span v-if="slotProps.data.paystatut==1" class="customer-badge status-paye"> PAYE  </span>
 							<span v-else class="customer-badge status-non-paye"> NON PAYE  </span>
 						</template>
 					</Column>
-					<Column field="ticket" header="Ticket">
+					<Column field="ticked_id" header="Ticket" :sortable="true">
                         <template #body="slotProps">
-							{{slotProps.data.ticket}}
+							{{slotProps.data.ticked_id}}
 						</template>
 					</Column>
 					<Column>
 						<template #body="slotProps">
-                            <Button v-if="!slotProps.data.presence" title="Marqué présent" icon="pi pi-check" class="p-button-rounded p-button-success p-mr-2" @click="confirmEnableGuest(slotProps.data)" />
+                            <Button v-if="slotProps.data.presence!=1" title="Marqué présent" icon="pi pi-check" class="p-button-rounded p-button-success p-mr-2" @click="confirmEnableGuest(slotProps.data)" />
 							<Button v-else title="Marqué Abscent" icon="pi pi-times" class="p-button-rounded p-button-warning p-mr-2 center" @click="confirmDisableGuest(slotProps.data)" />
 						</template>
 					</Column>
@@ -97,53 +94,14 @@
 </template>
 
 <script>
-
+import { signups, enableGuest, disableGuest } from '@/api/dash.js'
 
 export default {
 	data() {
 		return {
 			guest: {},
 			guests: [
-				{ id: 1,
-                  fullname: "Max Ridge",
-				  email: "test1@gmail.com",
-				  phone: "2435467468",
-				  presence: 0,
-				  paystatut: 1,
-				  ticket: "Ibudo-91054044-STANDARD"
-			  	},
-				{ id: 1,
-                  fullname: "Robert Barathéon",
-				  email: "test2@gmail.com",
-				  phone: "2435467468",
-				  presence: 1,
-				  paystatut: 1,
-				  ticket: "Ibudo-91054044-STANDARD"
-			  	},
-				{ id: 1,
-                  fullname: "Robert Barathéon",
-				  email: "test3@gmail.com",
-				  phone: "2435467468",
-				  presence: 0,
-				  paystatut: 1,
-				  ticket: "Ibudo-91054044-STANDARD"
-			  	},
-				{ id: 1,
-                  fullname: "Uspet Cad",
-				  email: "test4@gmail.com",
-				  phone: "2435467468",
-				  presence: 1,
-				  paystatut: 1,
-				  ticket: "Ibudo-91054044-STANDARD"
-			  	},
-				{ id: 1,
-                  fullname: "Monckey D. Luffy",
-				  email: "test5@gmail.com",
-				  phone: "2435467468",
-				  presence: 0,
-				  paystatut: 1,
-				  ticket: "Ibudo-91054044-STANDARD"
-			  	},
+
 			],
 			guest_dialog: false,
 			enable_guest_dialog: false,
@@ -161,33 +119,64 @@ export default {
 	created() {
 	},
 	mounted() {
+		signups().then( rep_db => {
+					console.log("rep:", rep_db)
+					this.guests = rep_db.data
+				}).catch( error => {
+					console.log("error: ", error)
+					//error
+				})
+
     },
 	methods: {
-		enableGuest(guest) {
-			this.guest = {...guest};
-			this.$toast.add({severity:'success', summary: 'Successful', detail: 'Cette astuce sera affichée', life: 3000});
+		enableGuest() {
+			enableGuest(this.guest.id).then( rep_db => {
+						console.log("rep:", rep_db)
+						this.guests.forEach((item, i) => {
+							if(item.id == this.guest.id) {
+								item.presence = true
+							}
+						});
+						this.$toast.add({severity:'success', summary: 'Successful', detail: "Présence marqué", life: 3000});
+					}).catch( error => {
+						console.log("error: ", error)
+						this.$toast.add({severity:'success', summary: 'Successful', detail: "Une erreur s'est produite", life: 3000});
+					}).then( () => {
+						this.enable_guest_dialog = false;
+					})
 		},
-		disableGuest(guest) {
-			this.guest = {...guest};
-			this.$toast.add({severity:'success', summary: 'Successful', detail: ' Cette astuce ne sera plus affichée', life: 3000});
+		disableGuest() {
+			disableGuest(this.guest.id).then( rep_db => {
+						console.log("rep:", rep_db)
+						this.guests.forEach((item, i) => {
+							if(item.id == this.guest.id) {
+								item.presence = false
+							}
+						});
+						this.$toast.add({severity:'success', summary: 'Successful', detail: "Absence marqué", life: 3000});
+					}).catch( error => {
+						console.log("error: ", error)
+						this.$toast.add({severity:'success', summary: 'Successful', detail: "Une erreur s'est produite", life: 3000});
+					}).then( () => {
+						this.disable_guest_dialog = false;
+					})
 		},
 		confirmEnableGuest(guest) {
-			this.guest = guest;
+			this.guest = {...guest};
 			this.enable_guest_dialog = true;
 		},
 		confirmDisableGuest(guest) {
-			this.guest = guest;
+			this.guest = {...guest};
 			this.disable_guest_dialog = true;
 		},
 		findIndexById(id) {
 			let index = -1;
-			for (let i = 0; i < this.products.length; i++) {
-				if (this.products[i].id === id) {
+			for (let i = 0; i < this.guests.length; i++) {
+				if (this.guests[i].id === id) {
 					index = i;
 					break;
 				}
 			}
-
 			return index;
 		},
 		createId() {

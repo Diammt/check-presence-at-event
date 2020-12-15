@@ -2,32 +2,23 @@ import request from '@/utils/request.js'
 // import router from '@/router'
 // import store from '@/store'
 
-export function statistics(){
+export function signups(){
     return request({
-        url: 'dashboard/statistics',
+        url: 'dash/sigups',
         method: 'get'
     })
 }
 
-export function myArticles(page = 1){
+export function enableGuest(id){
     return request({
-        url: 'dashboard/my-articles?page=' + page,
-        method: 'get'
+        url: 'dash/sigup/enable/' + id,
+        method: 'put'
     })
 }
 
-export function addArticle(data){
+export function disableGuest(id){
     return request({
-        url: 'article',
-        method: 'post',
-        data
-    })
-}
-
-export function updateArticle(article_id, data){
-    return request({
-        url: 'article/' + article_id,
-        method: 'put',
-        data
+        url: 'dash/sigup/disable/' + id,
+        method: 'put'
     })
 }

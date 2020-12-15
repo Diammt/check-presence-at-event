@@ -19,7 +19,7 @@ class CreateSignupsTable extends Migration
             $table->string("email");
             $table->string("phone");
             $table->string("company");
-            $table->string("paystatus");
+            $table->boolean("paystatut");
             $table->string("ticked_id");
             $table->timestamp("tchrono");
             $table->timestamps();

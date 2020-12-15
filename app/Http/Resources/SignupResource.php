@@ -21,7 +21,7 @@ class SignupResource extends JsonResource
             "email" => $this->email,
             "phone" => $this->phone,
             "company" => $this->company,
-            "paystatus" => $this->paystatus,
+            "paystatut" => $this->paystatut,
             "ticked_id" => $this->ticked_id,
             "tchrono" => $this->tchrono,
             "presence" => $this->signup_status_summit->presence

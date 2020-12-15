@@ -1969,6 +1969,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _api_dash_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/api/dash.js */ "./resources/js/api/dash.js");
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
@@ -2070,54 +2071,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
-//
-//
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
       guest: {},
-      guests: [{
-        id: 1,
-        fullname: "Max Ridge",
-        email: "test1@gmail.com",
-        phone: "2435467468",
-        presence: 0,
-        paystatut: 1,
-        ticket: "Ibudo-91054044-STANDARD"
-      }, {
-        id: 1,
-        fullname: "Robert Barathéon",
-        email: "test2@gmail.com",
-        phone: "2435467468",
-        presence: 1,
-        paystatut: 1,
-        ticket: "Ibudo-91054044-STANDARD"
-      }, {
-        id: 1,
-        fullname: "Robert Barathéon",
-        email: "test3@gmail.com",
-        phone: "2435467468",
-        presence: 0,
-        paystatut: 1,
-        ticket: "Ibudo-91054044-STANDARD"
-      }, {
-        id: 1,
-        fullname: "Uspet Cad",
-        email: "test4@gmail.com",
-        phone: "2435467468",
-        presence: 1,
-        paystatut: 1,
-        ticket: "Ibudo-91054044-STANDARD"
-      }, {
-        id: 1,
-        fullname: "Monckey D. Luffy",
-        email: "test5@gmail.com",
-        phone: "2435467468",
-        presence: 0,
-        paystatut: 1,
-        ticket: "Ibudo-91054044-STANDARD"
-      }],
+      guests: [],
       guest_dialog: false,
       enable_guest_dialog: false,
       disable_guest_dialog: false,
@@ -2132,39 +2091,92 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     };
   },
   created: function created() {},
-  mounted: function mounted() {},
+  mounted: function mounted() {
+    var _this = this;
+
+    Object(_api_dash_js__WEBPACK_IMPORTED_MODULE_0__["signups"])().then(function (rep_db) {
+      console.log("rep:", rep_db);
+      _this.guests = rep_db.data;
+    })["catch"](function (error) {
+      console.log("error: ", error); //error
+    });
+  },
   methods: {
-    enableGuest: function enableGuest(guest) {
-      this.guest = _objectSpread({}, guest);
-      this.$toast.add({
-        severity: 'success',
-        summary: 'Successful',
-        detail: 'Cette astuce sera affichée',
-        life: 3000
+    enableGuest: function enableGuest() {
+      var _this2 = this;
+
+      Object(_api_dash_js__WEBPACK_IMPORTED_MODULE_0__["enableGuest"])(this.guest.id).then(function (rep_db) {
+        console.log("rep:", rep_db);
+
+        _this2.guests.forEach(function (item, i) {
+          if (item.id == _this2.guest.id) {
+            item.presence = true;
+          }
+        });
+
+        _this2.$toast.add({
+          severity: 'success',
+          summary: 'Successful',
+          detail: "Présence marqué",
+          life: 3000
+        });
+      })["catch"](function (error) {
+        console.log("error: ", error);
+
+        _this2.$toast.add({
+          severity: 'success',
+          summary: 'Successful',
+          detail: "Une erreur s'est produite",
+          life: 3000
+        });
+      }).then(function () {
+        _this2.enable_guest_dialog = false;
       });
     },
-    disableGuest: function disableGuest(guest) {
-      this.guest = _objectSpread({}, guest);
-      this.$toast.add({
-        severity: 'success',
-        summary: 'Successful',
-        detail: ' Cette astuce ne sera plus affichée',
-        life: 3000
+    disableGuest: function disableGuest() {
+      var _this3 = this;
+
+      Object(_api_dash_js__WEBPACK_IMPORTED_MODULE_0__["disableGuest"])(this.guest.id).then(function (rep_db) {
+        console.log("rep:", rep_db);
+
+        _this3.guests.forEach(function (item, i) {
+          if (item.id == _this3.guest.id) {
+            item.presence = false;
+          }
+        });
+
+        _this3.$toast.add({
+          severity: 'success',
+          summary: 'Successful',
+          detail: "Absence marqué",
+          life: 3000
+        });
+      })["catch"](function (error) {
+        console.log("error: ", error);
+
+        _this3.$toast.add({
+          severity: 'success',
+          summary: 'Successful',
+          detail: "Une erreur s'est produite",
+          life: 3000
+        });
+      }).then(function () {
+        _this3.disable_guest_dialog = false;
       });
     },
     confirmEnableGuest: function confirmEnableGuest(guest) {
-      this.guest = guest;
+      this.guest = _objectSpread({}, guest);
       this.enable_guest_dialog = true;
     },
     confirmDisableGuest: function confirmDisableGuest(guest) {
-      this.guest = guest;
+      this.guest = _objectSpread({}, guest);
       this.disable_guest_dialog = true;
     },
     findIndexById: function findIndexById(id) {
       var index = -1;
 
-      for (var i = 0; i < this.products.length; i++) {
-        if (this.products[i].id === id) {
+      for (var i = 0; i < this.guests.length; i++) {
+        if (this.guests[i].id === id) {
           index = i;
           break;
         }
@@ -53954,427 +53966,391 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "p-grid crud-demo" }, [
-    _c(
-      "div",
-      { staticClass: "p-col-12" },
-      [
-        _c(
-          "Toolbar",
-          [
-            _c("template", { slot: "left" }, [
-              _c("h3", { staticClass: "p-text-uppercase" }, [
-                _vm._v("Liste des invités")
-              ])
-            ])
-          ],
-          2
-        ),
-        _vm._v(" "),
-        _c(
-          "div",
-          { staticClass: "card" },
-          [
-            _c(
-              "Toolbar",
-              { staticClass: "p-mb-4" },
-              [
-                _c(
-                  "template",
-                  { slot: "left" },
-                  [
-                    _c("Button", {
-                      staticClass: "p-button-danger",
-                      attrs: {
-                        title: "Supprimer",
-                        icon: "pi pi-trash",
-                        disabled:
-                          !_vm.selected_guests || !_vm.selected_guests.length
-                      },
-                      on: { click: _vm.confirmDeleteSelected }
-                    })
-                  ],
-                  1
-                ),
-                _vm._v(" "),
-                _c(
-                  "template",
-                  { slot: "right" },
-                  [
-                    _c("Button", {
-                      staticClass: "p-button-help",
-                      attrs: { title: "Exporter", icon: "pi pi-upload" },
-                      on: {
-                        click: function($event) {
-                          return _vm.exportCSV($event)
-                        }
-                      }
-                    })
-                  ],
-                  1
-                )
-              ],
-              2
-            ),
-            _vm._v(" "),
-            _c(
-              "DataTable",
-              {
-                ref: "dt",
-                staticClass: "p-datatable-customers",
-                attrs: {
-                  value: _vm.guests,
-                  rows: 10,
-                  dataKey: "id",
-                  rowHover: true,
-                  selection: _vm.selected_guests,
-                  filters: _vm.filters,
-                  paginator: true
-                },
-                on: {
-                  "update:selection": function($event) {
-                    _vm.selected_guests = $event
-                  }
-                },
-                scopedSlots: _vm._u([
-                  {
-                    key: "header",
-                    fn: function() {
-                      return [
-                        _c("div", { staticClass: "table-header" }, [
-                          _c(
-                            "span",
-                            { staticClass: "p-input-icon-left" },
-                            [
-                              _c("i", { staticClass: "pi pi-search" }),
-                              _vm._v(" "),
-                              _c("InputText", {
-                                attrs: { placeholder: "Global Search" },
-                                model: {
-                                  value: _vm.filters["global"],
-                                  callback: function($$v) {
-                                    _vm.$set(_vm.filters, "global", $$v)
-                                  },
-                                  expression: "filters['global']"
-                                }
-                              })
-                            ],
-                            1
-                          )
-                        ])
-                      ]
-                    },
-                    proxy: true
-                  }
+    _c("div", { staticClass: "p-col-12" }, [
+      _c(
+        "div",
+        { staticClass: "card" },
+        [
+          _c(
+            "Toolbar",
+            { staticClass: "p-mb-4" },
+            [
+              _c("template", { slot: "left" }, [
+                _c("h3", { staticClass: "p-text-uppercase" }, [
+                  _vm._v("Liste des invités")
                 ])
+              ]),
+              _vm._v(" "),
+              _c(
+                "template",
+                { slot: "right" },
+                [
+                  _c("Button", {
+                    staticClass: "p-button-help",
+                    attrs: { title: "Exporter", icon: "pi pi-upload" },
+                    on: {
+                      click: function($event) {
+                        return _vm.exportCSV($event)
+                      }
+                    }
+                  })
+                ],
+                1
+              )
+            ],
+            2
+          ),
+          _vm._v(" "),
+          _c(
+            "DataTable",
+            {
+              ref: "dt",
+              staticClass: "p-datatable-customers",
+              attrs: {
+                value: _vm.guests,
+                rows: 10,
+                dataKey: "id",
+                rowHover: true,
+                filters: _vm.filters,
+                paginator: true
               },
-              [
-                _vm._v(" "),
-                _c("Column", {
-                  attrs: {
-                    selectionMode: "multiple",
-                    headerStyle: "width: 3rem"
-                  }
-                }),
-                _vm._v(" "),
-                _c("Column", {
-                  attrs: {
-                    field: "fullname",
-                    header: "Nom & Prénom",
-                    sortable: true
-                  },
-                  scopedSlots: _vm._u([
-                    {
-                      key: "body",
-                      fn: function(slotProps) {
-                        return [
-                          _vm._v(
-                            "\n\t\t\t\t\t\t\t" +
-                              _vm._s(slotProps.data.fullname) +
-                              "\n\t\t\t\t\t\t"
-                          )
-                        ]
-                      }
-                    }
-                  ])
-                }),
-                _vm._v(" "),
-                _c("Column", {
-                  attrs: { field: "email", header: "Email", sortable: true },
-                  scopedSlots: _vm._u([
-                    {
-                      key: "body",
-                      fn: function(slotProps) {
-                        return [
-                          _vm._v(
-                            "\n\t\t\t\t\t\t\t" +
-                              _vm._s(slotProps.data.email) +
-                              "\n\t\t\t\t\t\t"
-                          )
-                        ]
-                      }
-                    }
-                  ])
-                }),
-                _vm._v(" "),
-                _c("Column", {
-                  attrs: { field: "phone", header: "Numéro" },
-                  scopedSlots: _vm._u([
-                    {
-                      key: "body",
-                      fn: function(slotProps) {
-                        return [
-                          _vm._v(
-                            "\n\t\t\t\t\t\t\t" +
-                              _vm._s(slotProps.data.phone) +
-                              "\n\t\t\t\t\t\t"
-                          )
-                        ]
-                      }
-                    }
-                  ])
-                }),
-                _vm._v(" "),
-                _c("Column", {
-                  attrs: { field: "presence", header: "Présent" },
-                  scopedSlots: _vm._u([
-                    {
-                      key: "body",
-                      fn: function(slotProps) {
-                        return [
-                          slotProps.data.presence
-                            ? _c(
-                                "span",
-                                {
-                                  staticClass: "customer-badge status-present"
+              scopedSlots: _vm._u([
+                {
+                  key: "header",
+                  fn: function() {
+                    return [
+                      _c("div", { staticClass: "table-header" }, [
+                        _c(
+                          "span",
+                          { staticClass: "p-input-icon-left" },
+                          [
+                            _c("i", { staticClass: "pi pi-search" }),
+                            _vm._v(" "),
+                            _c("InputText", {
+                              attrs: { placeholder: "Global Search" },
+                              model: {
+                                value: _vm.filters["global"],
+                                callback: function($$v) {
+                                  _vm.$set(_vm.filters, "global", $$v)
                                 },
-                                [_vm._v(" OUI  ")]
-                              )
-                            : _c(
-                                "span",
-                                {
-                                  staticClass: "customer-badge status-abscent"
-                                },
-                                [_vm._v(" NON  ")]
-                              )
-                        ]
-                      }
-                    }
-                  ])
-                }),
-                _vm._v(" "),
-                _c("Column", {
-                  attrs: { field: "paystatut", header: "Statut Payement" },
-                  scopedSlots: _vm._u([
-                    {
-                      key: "body",
-                      fn: function(slotProps) {
-                        return [
-                          slotProps.data.paystatut
-                            ? _c(
-                                "span",
-                                { staticClass: "customer-badge status-paye" },
-                                [_vm._v(" PAYE  ")]
-                              )
-                            : _c(
-                                "span",
-                                {
-                                  staticClass: "customer-badge status-non-paye"
-                                },
-                                [_vm._v(" NON PAYE  ")]
-                              )
-                        ]
-                      }
-                    }
-                  ])
-                }),
-                _vm._v(" "),
-                _c("Column", {
-                  attrs: { field: "ticket", header: "Ticket" },
-                  scopedSlots: _vm._u([
-                    {
-                      key: "body",
-                      fn: function(slotProps) {
-                        return [
-                          _vm._v(
-                            "\n\t\t\t\t\t\t\t" +
-                              _vm._s(slotProps.data.ticket) +
-                              "\n\t\t\t\t\t\t"
-                          )
-                        ]
-                      }
-                    }
-                  ])
-                }),
-                _vm._v(" "),
-                _c("Column", {
-                  scopedSlots: _vm._u([
-                    {
-                      key: "body",
-                      fn: function(slotProps) {
-                        return [
-                          !slotProps.data.presence
-                            ? _c("Button", {
-                                staticClass:
-                                  "p-button-rounded p-button-success p-mr-2",
-                                attrs: {
-                                  title: "Marqué présent",
-                                  icon: "pi pi-check"
-                                },
-                                on: {
-                                  click: function($event) {
-                                    return _vm.confirmEnableGuest(
-                                      slotProps.data
-                                    )
-                                  }
-                                }
-                              })
-                            : _c("Button", {
-                                staticClass:
-                                  "p-button-rounded p-button-warning p-mr-2 center",
-                                attrs: {
-                                  title: "Marqué Abscent",
-                                  icon: "pi pi-times"
-                                },
-                                on: {
-                                  click: function($event) {
-                                    return _vm.confirmDisableGuest(
-                                      slotProps.data
-                                    )
-                                  }
-                                }
-                              })
-                        ]
-                      }
-                    }
-                  ])
-                })
-              ],
-              1
-            ),
-            _vm._v(" "),
-            _c(
-              "Dialog",
-              {
-                style: { width: "450px" },
-                attrs: {
-                  visible: _vm.enable_guest_dialog,
-                  header: "Confirmation",
-                  modal: true
-                },
-                on: {
-                  "update:visible": function($event) {
-                    _vm.enable_guest_dialog = $event
-                  }
-                },
-                scopedSlots: _vm._u([
-                  {
-                    key: "footer",
-                    fn: function() {
-                      return [
-                        _c("Button", {
-                          staticClass: "p-button-text",
-                          attrs: { label: "Non", icon: "pi pi-times" },
-                          on: {
-                            click: function($event) {
-                              _vm.enable_guest_dialog = false
-                            }
-                          }
-                        }),
-                        _vm._v(" "),
-                        _c("Button", {
-                          staticClass: "p-button-text",
-                          attrs: { label: "Oui", icon: "pi pi-check" },
-                          on: { click: _vm.enableGuest }
-                        })
-                      ]
-                    },
-                    proxy: true
-                  }
-                ])
-              },
-              [
-                _c("div", { staticClass: "confirmation-content" }, [
-                  _c("i", {
-                    staticClass: "pi pi-exclamation-triangle p-mr-3",
-                    staticStyle: { "font-size": "2rem" }
-                  }),
-                  _vm._v(" "),
-                  _vm.guest
-                    ? _c("span", [
-                        _vm._v(
-                          "Etes-vous sur de vouloir marqué la présence pour Mr/Mme " +
-                            _vm._s(_vm.guest.fullname) +
-                            "?"
+                                expression: "filters['global']"
+                              }
+                            })
+                          ],
+                          1
                         )
                       ])
-                    : _vm._e()
-                ])
-              ]
-            ),
-            _vm._v(" "),
-            _c(
-              "Dialog",
-              {
-                style: { width: "450px" },
-                attrs: {
-                  visible: _vm.disable_guest_dialog,
-                  header: "Confirmation",
-                  modal: true
+                    ]
+                  },
+                  proxy: true
                 },
-                on: {
-                  "update:visible": function($event) {
-                    _vm.disable_guest_dialog = $event
-                  }
+                {
+                  key: "empty",
+                  fn: function() {
+                    return [
+                      _c("span", { staticClass: "text-center" }, [
+                        _vm._v("Aucun invité actuellement")
+                      ])
+                    ]
+                  },
+                  proxy: true
+                }
+              ])
+            },
+            [
+              _vm._v(" "),
+              _vm._v(" "),
+              _c("Column", {
+                attrs: {
+                  field: "fullname",
+                  header: "Nom & Prénom",
+                  sortable: true
                 },
                 scopedSlots: _vm._u([
                   {
-                    key: "footer",
-                    fn: function() {
+                    key: "body",
+                    fn: function(slotProps) {
                       return [
-                        _c("Button", {
-                          staticClass: "p-button-text",
-                          attrs: { label: "Non", icon: "pi pi-times" },
-                          on: {
-                            click: function($event) {
-                              _vm.disable_guest_dialog = false
-                            }
-                          }
-                        }),
-                        _vm._v(" "),
-                        _c("Button", {
-                          staticClass: "p-button-text",
-                          attrs: { label: "Oui", icon: "pi pi-check" },
-                          on: { click: _vm.disableGuest }
-                        })
+                        _vm._v(
+                          "\n\t\t\t\t\t\t\t" +
+                            _vm._s(slotProps.data.fullname) +
+                            "\n\t\t\t\t\t\t"
+                        )
                       ]
-                    },
-                    proxy: true
+                    }
                   }
                 ])
-              },
-              [
-                _c("div", { staticClass: "confirmation-content" }, [
-                  _c("i", {
-                    staticClass: "pi pi-exclamation-triangle p-mr-3",
-                    staticStyle: { "font-size": "2rem" }
-                  }),
-                  _vm._v(" "),
-                  _c("span", [
-                    _vm._v(
-                      "Etes-vous sur de vouloir marqué l'absence pour " +
-                        _vm._s(_vm.guest.fullname) +
-                        "?"
-                    )
-                  ])
+              }),
+              _vm._v(" "),
+              _c("Column", {
+                attrs: { field: "email", header: "Email", sortable: true },
+                scopedSlots: _vm._u([
+                  {
+                    key: "body",
+                    fn: function(slotProps) {
+                      return [
+                        _vm._v(
+                          "\n\t\t\t\t\t\t\t" +
+                            _vm._s(slotProps.data.email) +
+                            "\n\t\t\t\t\t\t"
+                        )
+                      ]
+                    }
+                  }
                 ])
-              ]
-            )
-          ],
-          1
-        )
-      ],
-      1
-    )
+              }),
+              _vm._v(" "),
+              _c("Column", {
+                attrs: { field: "phone", header: "Numéro", sortable: true },
+                scopedSlots: _vm._u([
+                  {
+                    key: "body",
+                    fn: function(slotProps) {
+                      return [
+                        _vm._v(
+                          "\n\t\t\t\t\t\t\t" +
+                            _vm._s(slotProps.data.phone) +
+                            "\n\t\t\t\t\t\t"
+                        )
+                      ]
+                    }
+                  }
+                ])
+              }),
+              _vm._v(" "),
+              _c("Column", {
+                attrs: { field: "presence", header: "Présent", sortable: true },
+                scopedSlots: _vm._u([
+                  {
+                    key: "body",
+                    fn: function(slotProps) {
+                      return [
+                        slotProps.data.presence
+                          ? _c(
+                              "span",
+                              { staticClass: "customer-badge status-present" },
+                              [_vm._v(" OUI  ")]
+                            )
+                          : _c(
+                              "span",
+                              { staticClass: "customer-badge status-abscent" },
+                              [_vm._v(" NON  ")]
+                            )
+                      ]
+                    }
+                  }
+                ])
+              }),
+              _vm._v(" "),
+              _c("Column", {
+                attrs: {
+                  field: "paystatut",
+                  header: "Statut Payement",
+                  sortable: true
+                },
+                scopedSlots: _vm._u([
+                  {
+                    key: "body",
+                    fn: function(slotProps) {
+                      return [
+                        slotProps.data.paystatut == 1
+                          ? _c(
+                              "span",
+                              { staticClass: "customer-badge status-paye" },
+                              [_vm._v(" PAYE  ")]
+                            )
+                          : _c(
+                              "span",
+                              { staticClass: "customer-badge status-non-paye" },
+                              [_vm._v(" NON PAYE  ")]
+                            )
+                      ]
+                    }
+                  }
+                ])
+              }),
+              _vm._v(" "),
+              _c("Column", {
+                attrs: { field: "ticked_id", header: "Ticket", sortable: true },
+                scopedSlots: _vm._u([
+                  {
+                    key: "body",
+                    fn: function(slotProps) {
+                      return [
+                        _vm._v(
+                          "\n\t\t\t\t\t\t\t" +
+                            _vm._s(slotProps.data.ticked_id) +
+                            "\n\t\t\t\t\t\t"
+                        )
+                      ]
+                    }
+                  }
+                ])
+              }),
+              _vm._v(" "),
+              _c("Column", {
+                scopedSlots: _vm._u([
+                  {
+                    key: "body",
+                    fn: function(slotProps) {
+                      return [
+                        slotProps.data.presence != 1
+                          ? _c("Button", {
+                              staticClass:
+                                "p-button-rounded p-button-success p-mr-2",
+                              attrs: {
+                                title: "Marqué présent",
+                                icon: "pi pi-check"
+                              },
+                              on: {
+                                click: function($event) {
+                                  return _vm.confirmEnableGuest(slotProps.data)
+                                }
+                              }
+                            })
+                          : _c("Button", {
+                              staticClass:
+                                "p-button-rounded p-button-warning p-mr-2 center",
+                              attrs: {
+                                title: "Marqué Abscent",
+                                icon: "pi pi-times"
+                              },
+                              on: {
+                                click: function($event) {
+                                  return _vm.confirmDisableGuest(slotProps.data)
+                                }
+                              }
+                            })
+                      ]
+                    }
+                  }
+                ])
+              })
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "Dialog",
+            {
+              style: { width: "450px" },
+              attrs: {
+                visible: _vm.enable_guest_dialog,
+                header: "Confirmation",
+                modal: true
+              },
+              on: {
+                "update:visible": function($event) {
+                  _vm.enable_guest_dialog = $event
+                }
+              },
+              scopedSlots: _vm._u([
+                {
+                  key: "footer",
+                  fn: function() {
+                    return [
+                      _c("Button", {
+                        staticClass: "p-button-text",
+                        attrs: { label: "Non", icon: "pi pi-times" },
+                        on: {
+                          click: function($event) {
+                            _vm.enable_guest_dialog = false
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c("Button", {
+                        staticClass: "p-button-text",
+                        attrs: { label: "Oui", icon: "pi pi-check" },
+                        on: { click: _vm.enableGuest }
+                      })
+                    ]
+                  },
+                  proxy: true
+                }
+              ])
+            },
+            [
+              _c("div", { staticClass: "confirmation-content" }, [
+                _c("i", {
+                  staticClass: "pi pi-exclamation-triangle p-mr-3",
+                  staticStyle: { "font-size": "2rem" }
+                }),
+                _vm._v(" "),
+                _vm.guest
+                  ? _c("span", [
+                      _vm._v(
+                        "Etes-vous sur de vouloir marqué la présence pour Mr/Mme " +
+                          _vm._s(_vm.guest.fullname) +
+                          "?"
+                      )
+                    ])
+                  : _vm._e()
+              ])
+            ]
+          ),
+          _vm._v(" "),
+          _c(
+            "Dialog",
+            {
+              style: { width: "450px" },
+              attrs: {
+                visible: _vm.disable_guest_dialog,
+                header: "Confirmation",
+                modal: true
+              },
+              on: {
+                "update:visible": function($event) {
+                  _vm.disable_guest_dialog = $event
+                }
+              },
+              scopedSlots: _vm._u([
+                {
+                  key: "footer",
+                  fn: function() {
+                    return [
+                      _c("Button", {
+                        staticClass: "p-button-text",
+                        attrs: { label: "Non", icon: "pi pi-times" },
+                        on: {
+                          click: function($event) {
+                            _vm.disable_guest_dialog = false
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c("Button", {
+                        staticClass: "p-button-text",
+                        attrs: { label: "Oui", icon: "pi pi-check" },
+                        on: { click: _vm.disableGuest }
+                      })
+                    ]
+                  },
+                  proxy: true
+                }
+              ])
+            },
+            [
+              _c("div", { staticClass: "confirmation-content" }, [
+                _c("i", {
+                  staticClass: "pi pi-exclamation-triangle p-mr-3",
+                  staticStyle: { "font-size": "2rem" }
+                }),
+                _vm._v(" "),
+                _c("span", [
+                  _vm._v(
+                    "Etes-vous sur de vouloir marqué l'absence pour " +
+                      _vm._s(_vm.guest.fullname) +
+                      "?"
+                  )
+                ])
+              ])
+            ]
+          )
+        ],
+        1
+      )
+    ])
   ])
 }
 var staticRenderFns = []
@@ -73170,6 +73146,43 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_App_vue_vue_type_template_id_f348271a_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
+
+/***/ }),
+
+/***/ "./resources/js/api/dash.js":
+/*!**********************************!*\
+  !*** ./resources/js/api/dash.js ***!
+  \**********************************/
+/*! exports provided: signups, enableGuest, disableGuest */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "signups", function() { return signups; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "enableGuest", function() { return enableGuest; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "disableGuest", function() { return disableGuest; });
+/* harmony import */ var _utils_request_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/utils/request.js */ "./resources/js/utils/request.js");
+ // import router from '@/router'
+// import store from '@/store'
+
+function signups() {
+  return Object(_utils_request_js__WEBPACK_IMPORTED_MODULE_0__["default"])({
+    url: 'dash/sigups',
+    method: 'get'
+  });
+}
+function enableGuest(id) {
+  return Object(_utils_request_js__WEBPACK_IMPORTED_MODULE_0__["default"])({
+    url: 'dash/sigup/enable/' + id,
+    method: 'put'
+  });
+}
+function disableGuest(id) {
+  return Object(_utils_request_js__WEBPACK_IMPORTED_MODULE_0__["default"])({
+    url: 'dash/sigup/disable/' + id,
+    method: 'put'
+  });
+}
 
 /***/ }),
 

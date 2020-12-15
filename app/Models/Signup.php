@@ -12,7 +12,7 @@ class Signup extends Model
         "email",
         "phone",
         "company",
-        "paystatus",
+        "paystatut",
         "ticked_id",
         "tchrono"
     ];

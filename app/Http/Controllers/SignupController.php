@@ -18,7 +18,7 @@ class SignupController extends Controller
     public function index()
     {
         $signups = SignupResource::collection(Signup::all());
-        return \response()->json($signups);
+        return \response()->json(new JsonResponse($signups));
     }
 
     /**
@@ -86,7 +86,7 @@ class SignupController extends Controller
         $signup->signup_status_summit->update([
             "presence" => true,
         ]);
-        return \response()->json($signup);
+        return \response()->json(new JsonResponse($signup));
     }
 
     public function disablePresence($id)
@@ -109,6 +109,6 @@ class SignupController extends Controller
         $signup->signup_status_summit->update([
             "presence" => false,
         ]);
-        return \response()->json($signup);
+        return \response()->json(new JsonResponse($signup));
     }
 }
