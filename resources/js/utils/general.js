@@ -6,7 +6,7 @@ export function titleForUrl(title) {
 
 export function ibudoSiteUrl() {
     if(production) {
-        return "http://summit-management.ibudohub.co/"
+        return "http://summit-management.ibudohub.co"
     }
     return "http://127.0.0.1:8000"
 }
