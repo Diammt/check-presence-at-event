@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Route;
 //define('ASSISTANT', 'ASSISTANT');
 //define('ADMIN', 'ADMIN');
 
-define('AUTH_TOKEN', 'user-auth-token');
+//define('AUTH_TOKEN', 'user-auth-token');
 
 
 
