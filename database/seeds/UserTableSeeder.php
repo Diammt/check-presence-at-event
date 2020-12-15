@@ -18,7 +18,6 @@ class UserTableSeeder extends Seeder
 
         Role::create(['name' => "ADMIN"]);
         Role::create(['name' => "ASSISTANT"]);
-        Role::create(['name' => "CLIENT"]);
 
         // Create admin
         $user = User::create([
@@ -51,9 +50,9 @@ class UserTableSeeder extends Seeder
         $user->assignRole("ASSISTANT");
 
         // Create client
-        for ($i=0; $i < NB_CLIENTS; $i++) {
-            $user = factory(User::class)->create();
-            $user->assignRole("CLIENT");
-        }
+        //for ($i=0; $i < NB_CLIENTS; $i++) {
+        //    $user = factory(User::class)->create();
+        //    $user->assignRole("CLIENT");
+        //}
     }
 }
