@@ -13,7 +13,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-define('CLIENT', 'CLIENT');
 define('ASSISTANT', 'ASSISTANT');
 define('ADMIN', 'ADMIN');
 
