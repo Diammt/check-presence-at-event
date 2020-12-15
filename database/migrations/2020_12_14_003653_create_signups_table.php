@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateSignupStatutSummitsTable extends Migration
+class CreateSignupsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,16 @@ class CreateSignupStatutSummitsTable extends Migration
      */
     public function up()
     {
-        Schema::create('signup_statut_summits', function (Blueprint $table) {
+        Schema::create('signups', function (Blueprint $table) {
             $table->id();
-            $table->boolean("presence")->default(false);
-            $table->unsignedBigInteger('signup_id');
+            $table->string("fullname");
+            $table->string("email");
+            $table->string("phone");
+            $table->string("company");
+            $table->string("paystatus");
+            $table->string("ticked_id");
+            $table->timestamp("tchrono");
             $table->timestamps();
-            $table->foreign('signup_id')
-                ->references('ID')
-                ->on('signups');
         });
     }
 
@@ -31,6 +33,6 @@ class CreateSignupStatutSummitsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('signup_statut_summits');
+        Schema::dropIfExists('signups');
     }
 }

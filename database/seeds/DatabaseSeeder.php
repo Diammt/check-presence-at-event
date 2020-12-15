@@ -16,6 +16,7 @@ class DatabaseSeeder extends Seeder
         define('NB_ASSISTANTS_ADMIN', 3);
 
         $this->call(UserTableSeeder::class);
+        $this->call(SignupStatutSummitTableSeeder::class);
 
     }
 

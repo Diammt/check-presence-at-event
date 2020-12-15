@@ -8,17 +8,14 @@ class Signup extends Model
 {
     //
     protected $fillable = [
-        "ID",
-        "Fullname",
-        "Email",
-        "Phone",
-        "Company",
-        "_paystatus",
-        "TickedID",
+        "fullname",
+        "email",
+        "phone",
+        "company",
+        "paystatus",
+        "ticked_id",
+        "tchrono"
     ];
-
-    protected $table = '_signup';
-    protected $primaryKey = 'ID';
 
     public function signup_status_summit()
     {

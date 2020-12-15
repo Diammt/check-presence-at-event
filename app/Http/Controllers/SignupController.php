@@ -4,8 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Signup;
-use App\Models\Signup;
-use App\rResources\SignupResource;
+use App\Http\Resources\SignupResource;
 use App\Utils\JsonResponse;
 use Illuminate\Support\Facades\Validator;
 
@@ -83,11 +82,10 @@ class SignupController extends Controller
             return \response()->json($response);
         }
 
-        Signup::where("id", $id)
-                ->update([
-                    "presence" => true,
-                ]);
         $signup = Signup::find($id);
+        $signup->signup_status_summit->update([
+            "presence" => true,
+        ]);
         return \response()->json($signup);
     }
 
@@ -107,11 +105,10 @@ class SignupController extends Controller
             return \response()->json($response);
         }
 
-        Signup::where("id", $id)
-                ->update([
-                    "presence" => false,
-                ]);
         $signup = Signup::find($id);
+        $signup->signup_status_summit->update([
+            "presence" => false,
+        ]);
         return \response()->json($signup);
     }
 }
