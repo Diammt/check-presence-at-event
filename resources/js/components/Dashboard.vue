@@ -6,10 +6,11 @@
 					<template slot="left">
 						<h3 class="p-text-uppercase">Liste des invités</h3>
 					</template>
-
-					<template slot="right">
-						<Button title="Exporter" icon="pi pi-upload" class="p-button-help" @click="exportCSV($event)"  />
-					</template>
+					<!--
+						<template slot="right">
+							<Button title="Exporter" icon="pi pi-upload" class="p-button-help" @click="exportCSV($event)"  />
+						</template>
+					-->
 				</Toolbar>
 
 			    <DataTable ref="dt" :value="guests"  class="p-datatable-customers" :rows="10" dataKey="id" :rowHover="true"

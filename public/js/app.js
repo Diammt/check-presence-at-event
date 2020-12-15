@@ -2071,6 +2071,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -2234,17 +2235,14 @@ __webpack_require__.r(__webpack_exports__);
     return {
       items: [{
         label: 'Liste des invités',
-        icon: 'pi pi-list',
-        to: "/login"
+        icon: 'pi pi-id-card',
+        to: "/"
       }, {
         label: 'Gérer',
-        icon: 'pi pi-setting',
+        icon: 'pi pi-cog',
         items: [{
-          label: 'Réception',
-          icon: 'pi pi-fw pi-align-left'
-        }, {
-          label: 'Ajouter',
-          icon: 'pi pi-fw pi-align-right'
+          label: 'Réceptionniste',
+          icon: 'pi pi-list'
         }]
       }]
     };
@@ -53979,24 +53977,7 @@ var render = function() {
                 _c("h3", { staticClass: "p-text-uppercase" }, [
                   _vm._v("Liste des invités")
                 ])
-              ]),
-              _vm._v(" "),
-              _c(
-                "template",
-                { slot: "right" },
-                [
-                  _c("Button", {
-                    staticClass: "p-button-help",
-                    attrs: { title: "Exporter", icon: "pi pi-upload" },
-                    on: {
-                      click: function($event) {
-                        return _vm.exportCSV($event)
-                      }
-                    }
-                  })
-                ],
-                1
-              )
+              ])
             ],
             2
           ),

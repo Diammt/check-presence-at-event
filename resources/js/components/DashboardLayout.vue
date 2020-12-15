@@ -22,20 +22,16 @@ export default {
            items: [
                {
                   label:'Liste des invités',
-                  icon:'pi pi-list',
-                  to: "/login"
+                  icon:'pi pi-id-card',
+                  to: "/"
                },
                {
                   label:'Gérer',
-                  icon:'pi pi-setting',
+                  icon:'pi pi-cog',
                   items:[
                      {
-                        label:'Réception',
-                        icon:'pi pi-fw pi-align-left'
-                     },
-                     {
-                        label:'Ajouter',
-                        icon:'pi pi-fw pi-align-right'
+                        label:'Réceptionniste',
+                        icon:'pi pi-list'
                      }
                   ]
                }
