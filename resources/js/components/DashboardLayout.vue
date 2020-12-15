@@ -5,7 +5,7 @@
             <img src="logo.png" alt="logo">
         </template>
         <template #end>
-            <span> <i class="pi pi-fw pi-power-off"></i>  Déconnexion</span>
+            <span  @click.prevent="logOutUser" > <i class="pi pi-fw pi-power-off"></i>  Déconnexion</span>
         </template>
     </Menubar>
     <router-view></router-view>
@@ -13,6 +13,9 @@
 </template>
 
 <script>
+import { logout, me } from '@/api/user.js'
+import { removeToken, removeTokenExpire, removeRoles, removePermissions } from "@/cookies/user.js"
+
 export default {
     data() {
        return {
@@ -38,7 +41,31 @@ export default {
                }
             ]
        }
-   }
+   },
+   methods: {
+        logOutUser() {
+            me()
+            logout().then( data => {
+                data
+                this.$router.push({
+                    name: "login"
+                })
+            }).catch( error => {
+                error
+            }).then(() => {
+                removeToken()
+                removeTokenExpire()
+                removeRoles()
+                removePermissions()
+                this.$toast.add({
+                    severity:'info',
+                    summary: 'Excelent',
+                    detail: "Vous êtes désormains déconnecté",
+                    life: 3000
+                })
+            })
+        }
+    }
 }
 </script>
 

@@ -25,7 +25,7 @@ Route::group([
     'prefix' => 'auth'
 
 ], function ($router) {
-    Route::post("dashbord-login", "AuthController@dashboardLogin");
+    Route::post("login", "AuthController@dashboardLogin");
     Route::post("client-login", "AuthController@clientLogin");
     Route::post('logout', 'AuthController@logout');
     Route::get('me', 'AuthController@me');

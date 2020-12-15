@@ -13,17 +13,21 @@
   					</span>
 
   					<div class="wrap-input100" data-validate = "Entrer votre email">
-  						<input class="input100" type="text" name="email">
+  						<input class="input100" type="text" name="email" v-model="model.email" >
   						<span class="focus-input100" data-placeholder="Email"></span>
   					</div>
 
   					<div class="wrap-input100" data-validate="Enter password">
-  						<input class="input100" type="password" name="password">
+  						<input class="input100" type="password" name="password" v-model="model.password" >
   						<span class="focus-input100" data-placeholder="Mot de passe"></span>
   					</div>
 
   					<div class="container-login100-form-btn">
-  						<button class="login100-form-btn" @click.prevent="login">
+                        <button v-if="connexion" @click.prevent="logUser" class="login100-form-btn" disabled>
+                            Connexion ...
+                        </button>
+
+  						<button v-else class="login100-form-btn" @click.prevent="logUser">
   							Se connecter
   						</button>
   					</div>
@@ -36,13 +40,132 @@
 </template>
 
 <script>
+import login from "@/api/login.js"
+import { me } from '@/api/user.js'
+import { defineAbilityFor } from '@/utils/ability.js'
+import { setRoles, setPermissions } from "@/cookies/user.js"
+import { required,  } from 'vuelidate/lib/validators'
+
 export default {
+    data() {
+        return {
+            model: {
+                email: '',
+                password: ''
+            },
+            connexion: false
+        }
+    },
+    validations: {
+        model: {
+            email: {
+                required
+            },
+            password: {
+                required
+            }
+        }
+    },
     mounted() {
-        this.login()
     },
     methods: {
-        login() {
-            this.$toast.add({severity:'success', summary: 'Successful', detail: 'Monté', life: 3000})
+        logUser() {
+
+            if(this.$v.model.email.$invalid){
+                this.$toast.add({
+                    severity:'warn',
+                    summary: 'Error',
+                    detail: '"Email non renseigné"',
+                    life: 3000
+                })
+                return
+                //this.$toast.add({
+                //    severity:'success',
+                //    summary: 'Successful',
+                //    detail: '"Email non renseigné"',
+                //    life: 3000
+                //})
+            }
+            if(this.$v.model.password.$invalid) {
+                this.$toast.add({
+                    severity:'warn',
+                    summary: 'Error',
+                    detail: "Mot de passe non renseigné",
+                    life: 3000
+                })
+                return
+            }
+            this.$toast.add({
+                severity:'info',
+                summary: '...',
+                detail: "Connexion en cours",
+                life: 3000
+            })
+            this.connexion = true
+            login(this.model).then( async (rep_db) => {
+                //Initialize rep_db
+                if (rep_db.success) {
+                    let fatal_error = false
+                    await   me().then( rep_db => {
+                                console.log("rep:", rep_db)
+                                setRoles(rep_db.data.user.roleNames)
+                                setPermissions(rep_db.data.user.permissionNames)
+                                this.$store.dispatch("setAbility", defineAbilityFor(rep_db.data.user) )
+                            }).catch( error => {
+                                console.log("error: ", error)
+                                //error
+                                this.$toast.add({
+                                    severity:'warn',
+                                    summary: 'Error',
+                                    detail: "Impossible de se connecter",
+                                    life: 3000
+                                })
+                                fatal_error = true
+                            })
+
+                        if(!fatal_error) {
+                            this.$toast.add({
+                                severity:'success',
+                                summary: 'Excelent',
+                                detail: "Connexion réussi",
+                                life: 3000
+                            })
+                            //Initialize data..
+
+                            // Redirect if necessary
+                                const path = this.$route.query.redirect
+                                if(path){
+                                    this.$router.push(path)
+                                }
+                            // Redirect if necessary..
+                            this.$router.push({
+                                name: "dashboard"
+                            })
+                        }
+
+                }else {
+                    //console.log("Informations incorrectes")
+                    //alert("wrong data")
+                    this.$toast.add({
+                        severity:'error',
+                        summary: 'Error',
+                        detail: "Email ou mot de passe incorrectes",
+                        life: 3000
+                    })
+                }
+            }).catch( error => {
+                //console.log(error)
+                error
+                //alert(error)
+                this.$toast.add({
+                    severity:'error',
+                    summary: 'Error',
+                    detail: "Une erreur s'est produite, veuillez réessayer",
+                    life: 3000
+                })
+            }).then( () => {
+                this.connexion = false
+            })
         }
     },
     head: {
