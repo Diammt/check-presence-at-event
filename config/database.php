@@ -63,15 +63,15 @@ return [
             ]) : [],
         ],
 
-        'mysql_payement' => [
+        'mysql_registers' => [
             'driver' => 'mysql',
-            'url' => env('DATABASE_URL_PAYEMENT'),
-            'host' => env('DB_HOST_PAYEMENT', '127.0.0.1'),
-            'port' => env('DB_PORT_PAYEMENT', '3306'),
-            'database' => env('DB_DATABASE_PAYEMENT', 'forge'),
-            'username' => env('DB_USERNAME_PAYEMENT', 'forge'),
-            'password' => env('DB_PASSWORD_PAYEMENT', ''),
-            'unix_socket' => env('DB_SOCKET_PAYEMENT', ''),
+            'url' => env('DATABASE_URL_REGISTERS'),
+            'host' => env('DB_HOST_REGISTERS', '127.0.0.1'),
+            'port' => env('DB_PORT_REGISTERS', '3306'),
+            'database' => env('DB_DATABASE_REGISTERS', 'forge'),
+            'username' => env('DB_USERNAME_REGISTERS', 'forge'),
+            'password' => env('DB_PASSWORD_REGISTERS', ''),
+            'unix_socket' => env('DB_SOCKET_REGISTERS', ''),
             'charset' => 'utf8mb4',
             'collation' => 'utf8mb4_unicode_ci',
             'prefix' => '',

@@ -1,4 +1,4 @@
-const production = true // 0: local, 1: production
+const production = false // 0: local, 1: production
 
 export function titleForUrl(title) {
     return title.replace(/ /gi, "-")

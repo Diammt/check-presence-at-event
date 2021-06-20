@@ -74304,7 +74304,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ibudoSiteUrl", function() { return ibudoSiteUrl; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "domainCookies", function() { return domainCookies; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "appBaseApi", function() { return appBaseApi; });
-var production = true; // 0: local, 1: production
+var production = false; // 0: local, 1: production
 
 function titleForUrl(title) {
   return title.replace(/ /gi, "-");
@@ -74497,8 +74497,8 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuelidate__WEBPACK_IMPORTED_MODUL
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /home/dat/Documents/Web_projects/ibudo_summit_check/resources/js/app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! /home/dat/Documents/Web_projects/ibudo_summit_check/resources/sass/app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! /home/mahussi/Documents/Freelancer/check-presence-at-event/resources/js/app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! /home/mahussi/Documents/Freelancer/check-presence-at-event/resources/sass/app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

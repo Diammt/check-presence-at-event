@@ -13,7 +13,8 @@ class SignupStatutSummitTableSeeder extends Seeder
      */
     public function run()
     {
-        $signups = DB::connection("mysql_payement")->table("_signup")->get();
+        $signups = [];
+        // $signups = DB::connection("mysql_payement")->table("_signup")->get();
 
         foreach ($signups as $key => $value) {
             $signup = Signup::firstOrCreate([
